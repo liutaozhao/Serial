@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">SerialDemo</string>
+    <string name="app_name">SerialDemo</string>
+    <string name="btntitle">Read Data</string>
+</resources>
