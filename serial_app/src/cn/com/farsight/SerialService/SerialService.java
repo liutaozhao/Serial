@@ -25,7 +25,7 @@ public class SerialService {
 	public String read() {
 		Log.d(TAG, "read()");
 		if(!isInitOk)
-			return null;
+			return "Error:can't find serialdevice";
 		byte[] data = new byte[128];
 		_read(data, 128);
 		 
@@ -33,7 +33,7 @@ public class SerialService {
 		try{
 			ret = new String(data, "GBK");
 		}catch(UnsupportedEncodingException e1) {
-			return null;
+			return "Error:can't EncodingException";//null;
 		}
 		return ret;
 	}

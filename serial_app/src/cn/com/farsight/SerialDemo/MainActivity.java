@@ -30,9 +30,18 @@ public class MainActivity extends Activity {
 			{
 				Log.d(TAG, "Button clickd!!");
 				data = serialService.read();
-				System.out.println(data);
-				updateView(data);
-				//serialService.write(data);
+				if(data != null)
+				{
+				    System.out.println(data);
+				    updateView(data);
+				    serialService.write(data);
+				} 
+				else 
+				{
+				    System.out.println("read return null");
+				}
+					
+				
 			};
 		});
 	}
