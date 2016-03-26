@@ -105,8 +105,10 @@ static int serial_device_open(const struct hw_module_t* module, const char* name
 	opt.c_cflag |= (CLOCAL | CREAD);
 
 	opt.c_cflag &= ~CSIZE;
-	opt.c_cflag &= ~CRTSCTS;
+	
 	opt.c_cflag |= CS8;
+
+	opt.c_cflag &= ~CRTSCTS;
 
 	/* 
 	   opt.c_cflag |= PARENB;  // enable; 
