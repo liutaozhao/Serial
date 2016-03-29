@@ -27,11 +27,11 @@ public class SerialService {
 		if(!isInitOk)
 			return "Error:can't find serialdevice";
 		byte[] data = new byte[128];
-		_read(data, 128);
+		int count = _read(data, 128);
 		 
 		String ret;
 		try{
-			ret = new String(data, "GBK");
+			ret = new String(data, 0, count, "GBK");
 		}catch(UnsupportedEncodingException e1) {
 			return "Error:can't EncodingException";//null;
 		}
