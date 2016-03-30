@@ -31,7 +31,11 @@ public class SerialService {
 		 
 		String ret;
 		try{
+<<<<<<< HEAD
 			ret = new String(data,0,count, "GBK");
+=======
+			ret = new String(data, 0, count, "GBK");
+>>>>>>> 9386baf066ba26186c1b6696b39b63df99669b7d
 		}catch(UnsupportedEncodingException e1) {
 			return "Error:can't EncodingException";//null;
 		}
