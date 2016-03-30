@@ -84,11 +84,7 @@ static int serial_device_open(const struct hw_module_t* module, const char* name
 		if(de->d_name[0] == '.' || strncmp(de->d_name, "ttyS0", 5))        // start with . will ignor
 			continue;
 		strcpy(filename, de->d_name);
-<<<<<<< HEAD
-		if((fd = open(devname, O_RDWR | O_NOCTTY)) < 0)
-=======
 		if((fd = open(devname, O_RDWR | O_NOCTTY )) < 0)
->>>>>>> 9386baf066ba26186c1b6696b39b63df99669b7d
 		{       
 			ALOGE("open error,fd=%d",fd);
 			return -1;
