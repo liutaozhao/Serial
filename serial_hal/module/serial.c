@@ -84,7 +84,7 @@ static int serial_device_open(const struct hw_module_t* module, const char* name
 		if(de->d_name[0] == '.' || strncmp(de->d_name, "ttyS0", 5))        // start with . will ignor
 			continue;
 		strcpy(filename, de->d_name);
-		if((fd = open(devname, O_RDWR | O_NOCTTY | O_NDELAY)) < 0)
+		if((fd = open(devname, O_RDWR | O_NOCTTY)) < 0)
 		{       
 			ALOGE("open error,fd=%d",fd);
 			return -1;
@@ -95,34 +95,24 @@ static int serial_device_open(const struct hw_module_t* module, const char* name
 	}
 
 
-	tcgetattr(fd, &opt);
-	//tcflush(fd, TCIOFLUSH);
-	cfsetispeed(&opt, B115200);
-	cfsetospeed(&opt, B115200);
-
-	//tcflush(fd, TCIOFLUSH);
-
-	opt.c_cflag |= (CLOCAL | CREAD);
-
-	opt.c_cflag &= ~CSIZE;
-	
-	opt.c_cflag |= CS8;
-
-	opt.c_cflag &= ~CRTSCTS;
-
-	/* 
-	   opt.c_cflag |= PARENB;  // enable; 
-	   opt.c_cflag |= PARODD;  // J check               
-	   opt.c_iflag |= (INPCK | ISTRIP);  // 
-	   */ 
-	opt.c_iflag |= IGNPAR;
-
-	opt.c_cflag &= ~CSTOPB;
-
-	opt.c_oflag = 0;
-	opt.c_lflag = 0;
-
-	tcsetattr(fd, TCSANOW, &opt);
+	struct termios port_settings;      // structure to store the port settings in
+ 
+   tcgetattr(fd, &port_settings);
+   cfsetispeed(&port_settings, B115200);    // set baud rates
+   cfsetospeed(&port_settings, B115200);
+ 
+   port_settings.c_cflag &= ~PARENB;    // set no parity, stop bits, data bits
+   port_settings.c_cflag &= ~CSTOPB;
+   port_settings.c_cflag &= ~CSIZE;
+   port_settings.c_cflag |= CS8;
+   port_settings.c_cflag |= (CLOCAL | CREAD);
+   port_settings.c_lflag &= (~(ECHO | ECHOE));
+//   port_settings.c_lflag |= (ECHO | ECHOE);
+//   port_settings.c_lflag |= (ICANON);
+   port_settings.c_lflag &= (~ICANON);
+   port_settings.c_iflag = IGNPAR;
+   int i = tcflush(fd, TCIFLUSH);
+   int k = tcsetattr(fd, TCSANOW, &port_settings);    // apply the settings to the port
 
 	ALOGE("%s X", __func__);
 

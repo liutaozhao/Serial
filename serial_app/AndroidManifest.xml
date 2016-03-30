@@ -4,7 +4,6 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="7" android:sharedUserId="android.uid.system"/>
-
     <application android:icon="@drawable/serial" android:label="@string/app_name">
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
@@ -13,6 +12,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+		<service android:name=".PlayService" />
     </application>
 </manifest>
