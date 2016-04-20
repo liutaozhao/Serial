@@ -22,6 +22,23 @@ public class MainActivity extends Activity {
 	MyHandler myHandler; 
 	Bundle b = new Bundle();
 	private boolean StopThread = false;
+    
+	public static String bytesToHexString(byte[] src){   
+	StringBuilder stringBuilder = new StringBuilder("");   
+	if (src == null || src.length <= 0) {   
+	        return null;   
+	    }   
+    for (int i = 0; i < src.length; i++) {   
+	        int v = src[i] & 0xFF;   
+	        String hv = Integer.toHexString(v);   
+       if (hv.length() < 2) {   
+	               stringBuilder.append(0);   
+				          }   
+        stringBuilder.append(hv);   
+		}   
+    return stringBuilder.toString();   
+	}   
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

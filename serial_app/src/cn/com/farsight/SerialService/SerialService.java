@@ -22,19 +22,64 @@ public class SerialService {
 		Log.d(TAG, "_init()");
 	}
 
+	public static String bytesToHexString(byte[] src,int length){   
+		StringBuilder stringBuilder = new StringBuilder("");   
+		if (src == null || src.length <= 0) {   
+	        return null;   
+	    }   
+		for (int i = 0; i < length; i++) {   
+		
+	        int v = src[i] & 0xFF;   
+	        String hv = Integer.toHexString(v); 
+			
+			if (hv.length() < 2) {   
+				stringBuilder.append(0);   
+			}   
+			stringBuilder.append(hv);
+			stringBuilder.append("  ");
+		}   
+		return stringBuilder.toString();   
+	}   
+	
 	public String read() {
 		Log.d(TAG, "read()");
 		if(!isInitOk)
 			return "Error:can't find serialdevice";
-		byte[] data = new byte[128];
-		int count = _read(data, 128);
-		 
+		byte[] data = new byte[12];
+		byte[] head = new byte[1];
+		byte[] result = new byte[13];
+		int count = _read(head, 1);
+		if(count == 1)
+		{
+			/*try{
+				Thread.currentThread().sleep(1000);
+			}catch(UnsupportedEncodingException e1){
+				
+			}*/
+			try {
+					//Thread.sleep(1000);
+					Thread.currentThread().sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace(); 
+				}
+			
+			count = _read(data, 11);
+			count++;
+		}
+		for(int i = 0; i < count; i++)
+		{
+			if(i == 0)
+				result[i] = head[0];
+			else
+				result[i] = data[i-1];
+		}
 		String ret;
-		try{
+		ret = bytesToHexString(result,count);
+		/*try{
 			ret = new String(data, 0, count, "GBK");
 		}catch(UnsupportedEncodingException e1) {
 			return "Error:can't EncodingException";//null;
-		}
+		}*/
 		return ret;
 	}
 
